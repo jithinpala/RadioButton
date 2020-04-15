@@ -26,15 +26,15 @@ class RadioGroupController : NSObject, RadioButtonDelegate {
 
     init(buttons: [RadioButton],
          groupId: String? = nil,
-         isMultipleSelectionEnabled: Bool? = nil) {
+         isMultiSelectionEnabled: Bool? = nil) {
         super.init()
         self.groupId = groupId
         for radioButton in buttons {
             radioButton.delegate = self
             radioButton.otherButtons = buttons.filter { $0 != radioButton }
             
-            if let isMultipleSelectionEnabled = isMultipleSelectionEnabled {
-                radioButton.isMultipleSelectionEnabled = isMultipleSelectionEnabled
+            if let isMultiSelectionEnabled = isMultiSelectionEnabled {
+                radioButton.isMultiSelectionEnabled = isMultiSelectionEnabled
             }
         }
         self.buttons = buttons
@@ -42,10 +42,10 @@ class RadioGroupController : NSObject, RadioButtonDelegate {
     
     func addButton(_ button: RadioButton,
                    groupId: String? = nil,
-                   isMultipleSelectionEnabled: Bool? = nil) {
+                   isMultiSelectionEnabled: Bool? = nil) {
         self.groupId = groupId
-        if let isMultipleSelectionEnabled = isMultipleSelectionEnabled {
-            button.isMultipleSelectionEnabled = isMultipleSelectionEnabled
+        if let isMultiSelectionEnabled = isMultiSelectionEnabled {
+            button.isMultiSelectionEnabled = isMultiSelectionEnabled
         }
         button.delegate = self
         buttons.append(button)
@@ -62,12 +62,12 @@ class RadioGroupController : NSObject, RadioButtonDelegate {
     
     func addButtons(_ buttons: [RadioButton],
                          groupId: String? = nil,
-                         isMultipleSelectionEnabled: Bool? = nil) {
+                         isMultiSelectionEnabled: Bool? = nil) {
         for radioButton in buttons {
             radioButton.delegate = self
             radioButton.otherButtons = buttons.filter { $0 != radioButton }
-            if let isMultipleSelectionEnabled = isMultipleSelectionEnabled {
-                radioButton.isMultipleSelectionEnabled = isMultipleSelectionEnabled
+            if let isMultiSelectionEnabled = isMultiSelectionEnabled {
+                radioButton.isMultiSelectionEnabled = isMultiSelectionEnabled
             }
         }
         self.groupId = groupId

@@ -20,7 +20,7 @@ class RadioButton: UIButton {
     private var fillCircleLayer = CAShapeLayer()
     
     var identifier: String?
-    var isMultipleSelectionEnabled: Bool = false
+    var isMultiSelectionEnabled: Bool = false
     weak var delegate: RadioButtonDelegate?
     @IBOutlet var otherButtons: [UIButton]!
     
@@ -132,7 +132,7 @@ class RadioButton: UIButton {
     }
     
     @objc func touchUpInside() {
-        if isMultipleSelectionEnabled {
+        if isMultiSelectionEnabled {
             self.isSelected = !self.isSelected
             deSelectButtons()
         } else {
