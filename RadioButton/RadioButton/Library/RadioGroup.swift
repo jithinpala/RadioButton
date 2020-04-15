@@ -45,11 +45,18 @@ class RadioGroup : NSObject, RadioButtonDelegate {
     }
     
     func didSelectButton(_ identifier: String?) {
+        var selectedButton: RadioButtonProtocol?
         buttons.forEach {
-            let selectedButton = $0 as? RadioButton
-            selectedButton?.isSelected = selectedButton?.identifier == identifier
+            let radioButton = $0 as? RadioButton
+            let isSelected = radioButton?.identifier == identifier
+            radioButton?.isSelected = isSelected
+            if isSelected {
+                selectedButton = radioButton
+            }
         }
-        delegate?.didSelectButton(buttons.first(where: { $0.identifier == identifier }))
+        if let selectedButton = selectedButton {
+            delegate?.didSelectButton(selectedButton)
+        }
     }
 
 }
