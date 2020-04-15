@@ -10,31 +10,48 @@ import UIKit
 
 class ViewController: UIViewController, RadioGroupDelegate {
     
-    @IBOutlet private weak var firstButton: RadioButton! 
-    @IBOutlet private weak var secondButton: RadioButton!
-    @IBOutlet private weak var thirdButton: RadioButton!
+    @IBOutlet private weak var firstButton: RadioButton! {
+        didSet {
+            firstButton.identifier = "First"
+            firstButton.title = "First Demo"
+            firstButton.delegate = itemGroup
+        }
+    }
+    @IBOutlet private weak var secondButton: RadioButton! {
+        didSet {
+            secondButton.identifier = "Second"
+            secondButton.title = "Second Demo"
+            secondButton.delegate = itemGroup
+        }
+    }
+    @IBOutlet private weak var thirdButton: RadioButton! {
+        didSet {
+            thirdButton.identifier = "Third"
+            thirdButton.title = "Third Demo"
+            thirdButton.delegate = itemGroup
+        }
+    }
     
     @IBOutlet private weak var businessButton: RadioButton!
     @IBOutlet private weak var touristButton: RadioButton!
     
-    private var itemGroup: RadioGroupController?
-    private var travelTypGruop: RadioGroupController?
+    private var itemGroup = RadioGroup()
+    private var travelTypGruop: RadioGroup?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-        itemGroup = RadioGroupController(buttons: [firstButton, secondButton, thirdButton], groupId: "Item")
-        itemGroup?.delegate = self
-        
-        travelTypGruop = RadioGroupController(buttons: [businessButton, touristButton], groupId: "TravelType")
-        travelTypGruop?.delegate = self
+        itemGroup.addButtons([firstButton, secondButton, thirdButton])
+        itemGroup.delegate = self
         
     }
     
-    func didSelectedButtonWith(_ index: Int?, value: String?, groupId: String?) {
-        print("\n ====>  Index => \(index), selected value => \(value), groupId => \(groupId)")
+    func didSelectButton(_ button: RadioButtonProtocol?) {
+        print(button)
     }
     
+    @IBAction func demo(_ sender: UIButton) {
+        print("====> \(itemGroup.selectedIndex), ====> \(itemGroup.selectedTitle), =====> \(itemGroup.selectedIdentifier)")
+    }
 }
 

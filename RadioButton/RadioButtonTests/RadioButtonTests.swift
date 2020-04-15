@@ -16,27 +16,29 @@ class RadioButtonTests: XCTestCase {
     let thirdItemButton = RadioButton()
 
     func testRadioGroupWithMultipleButtons_WhereFirstButtonIsSelected() {
-        firstItemButton.isSelected = true
+        firstItemButton.identifier = "first"
         
-        let itemGroup = RadioGroupController()
-        itemGroup.addButtons([firstItemButton, secondItemButton, thirdItemButton], groupId: "ItemType")
+        let itemGroup = RadioGroup()
+        itemGroup.addButtons([firstItemButton, secondItemButton, thirdItemButton])
+        itemGroup.didSelectButton("first")
         XCTAssertEqual(itemGroup.selectedIndex, 0, "Selected index is wrong")
-        XCTAssertEqual(itemGroup.selectedGroupId, "ItemType", "Selected group id is wrong")
+        XCTAssertEqual(itemGroup.selectedIdentifier, "first", "Selected group id is wrong")
     }
     
     func testRadioGroupWithMultipleButtons_WhereSecondButtonIsSelected() {
-        secondItemButton.isSelected = true
+        secondItemButton.identifier = "second"
         
-        let itemGroup = RadioGroupController()
-        itemGroup.addButtons([firstItemButton, secondItemButton, thirdItemButton], groupId: "ItemType")
+        let itemGroup = RadioGroup()
+        itemGroup.addButtons([firstItemButton, secondItemButton, thirdItemButton])
+        itemGroup.didSelectButton("second")
         XCTAssertEqual(itemGroup.selectedIndex, 1, "Selected index is wrong")
-        XCTAssertEqual(itemGroup.selectedGroupId, "ItemType", "Selected group id is wrong")
+        XCTAssertEqual(itemGroup.selectedIdentifier, "second", "Selected group id is wrong")
     }
     
     func testRadioGroupWithMultipleButtons_WhereNoButtonsAreSelected() {
-        let itemGroup = RadioGroupController()
-        itemGroup.addButtons([firstItemButton, secondItemButton, thirdItemButton], groupId: "ItemType")
-        XCTAssertEqual(itemGroup.selectedGroupId, "ItemType", "Selected group id is wrong")
+        let itemGroup = RadioGroup()
+        itemGroup.addButtons([firstItemButton, secondItemButton, thirdItemButton])
+        XCTAssertNil(itemGroup.selectedIdentifier, "SSelected identifier should be nil")
         XCTAssertNil(itemGroup.selectedIndex, "Selected index should be nil")
     }
 

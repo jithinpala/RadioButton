@@ -10,31 +10,31 @@ import Foundation
 import UIKit
 
 protocol RadioButtonDelegate: class {
-    func didSelectedButton(_ button: RadioButton)
+    func didSelectButton(_ identifier: String?)
 }
 
 @IBDesignable
-class RadioButton: UIButton {
+class RadioButton: UIButton, RadioButtonProtocol {
+    
+    var identifier: String?
+    var title: String?
     
     private var circleLayer = CAShapeLayer()
     private var fillCircleLayer = CAShapeLayer()
     
-    var identifier: String?
-    var isMultiSelectionEnabled: Bool = false
     weak var delegate: RadioButtonDelegate?
-    @IBOutlet var otherButtons: [UIButton]!
     
     @IBInspectable var defaultColor: UIColor = UIColor.black {
         didSet {
             circleLayer.strokeColor = defaultColor.cgColor
-            self.toggleButon()
+            self.updateState()
         }
     }
     
     @IBInspectable var highlightedColor: UIColor = UIColor.blue {
         didSet {
             circleLayer.strokeColor = highlightedColor.cgColor
-            self.toggleButon()
+            self.updateState()
         }
     }
     
@@ -49,13 +49,11 @@ class RadioButton: UIButton {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        identifier = currentTitle
         initialize()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        identifier = currentTitle
         initialize()
     }
     
@@ -74,13 +72,12 @@ class RadioButton: UIButton {
     
     override var isSelected: Bool {
         didSet {
-            toggleButon()
+            updateState()
         }
     }
     
     override func setTitle(_ title: String?, for state: UIControl.State) {
         super.setTitle(title, for: state)
-        identifier = currentTitle
     }
     
     private func initialize() {
@@ -97,8 +94,8 @@ class RadioButton: UIButton {
         self.contentVerticalAlignment = .center
         self.contentHorizontalAlignment = .leading
         self.contentEdgeInsets = UIEdgeInsets(top: 0, left: titleLeftSpace, bottom: 0, right: 0)
-        self.toggleButon()
-        self.initRadioButtonAction()
+        self.updateState()
+        self.initButtonAction()
         
     }
     
@@ -109,7 +106,7 @@ class RadioButton: UIButton {
         return circleFrame
     }
     
-    private func toggleButon() {
+    private func updateState() {
         if self.isSelected {
             fillCircleLayer.fillColor = highlightedColor.cgColor
             circleLayer.strokeColor = highlightedColor.cgColor
@@ -127,24 +124,12 @@ class RadioButton: UIButton {
         return UIBezierPath(ovalIn: circleFrame().insetBy(dx: 4, dy: 4))
     }
     
-    func initRadioButtonAction() {
+    private func initButtonAction() {
         self.addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
     }
     
     @objc func touchUpInside() {
-        if isMultiSelectionEnabled {
-            self.isSelected = !self.isSelected
-            deSelectButtons()
-        } else {
-            self.isSelected = true
-            deSelectButtons()
-        }
-        delegate?.didSelectedButton(self)
-    }
-    
-    func deSelectButtons() {
-        guard let otherButtons = otherButtons else { return }
-        otherButtons.forEach { $0.isSelected = false }
+        delegate?.didSelectButton(identifier)
     }
 }
 

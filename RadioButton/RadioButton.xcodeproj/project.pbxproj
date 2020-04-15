@@ -13,7 +13,7 @@
 		220226892445953E00E060F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 220226882445953E00E060F3 /* Assets.xcassets */; };
 		2202268C2445953E00E060F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2202268A2445953E00E060F3 /* LaunchScreen.storyboard */; };
 		220226962445959400E060F3 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220226942445959400E060F3 /* RadioButton.swift */; };
-		220226972445959400E060F3 /* RadioGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220226952445959400E060F3 /* RadioGroupController.swift */; };
+		220226972445959400E060F3 /* RadioGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220226952445959400E060F3 /* RadioGroup.swift */; };
 		22E2095E2446C04F0087CAC1 /* RadioButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E2095D2446C04F0087CAC1 /* RadioButtonTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,7 +36,7 @@
 		2202268B2445953E00E060F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2202268D2445953E00E060F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		220226942445959400E060F3 /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
-		220226952445959400E060F3 /* RadioGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioGroupController.swift; sourceTree = "<group>"; };
+		220226952445959400E060F3 /* RadioGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioGroup.swift; sourceTree = "<group>"; };
 		22E2095B2446C04F0087CAC1 /* RadioButtonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RadioButtonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22E2095D2446C04F0087CAC1 /* RadioButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButtonTests.swift; sourceTree = "<group>"; };
 		22E2095F2446C04F0087CAC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 		220226932445955B00E060F3 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				220226952445959400E060F3 /* RadioGroupController.swift */,
+				220226952445959400E060F3 /* RadioGroup.swift */,
 				220226942445959400E060F3 /* RadioButton.swift */,
 			);
 			path = Library;
@@ -212,7 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				220226962445959400E060F3 /* RadioButton.swift in Sources */,
-				220226972445959400E060F3 /* RadioGroupController.swift in Sources */,
+				220226972445959400E060F3 /* RadioGroup.swift in Sources */,
 				220226842445953D00E060F3 /* ViewController.swift in Sources */,
 				220226822445953D00E060F3 /* AppDelegate.swift in Sources */,
 			);
