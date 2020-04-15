@@ -28,8 +28,14 @@ class RadioGroup : NSObject, RadioButtonDelegate {
         super.init()
     }
 
-    func addButtons(_ buttons: [RadioButtonProtocol]) {
-        self.buttons = buttons
+    func addButtons(_ radioButtons: [RadioButtonProtocol]) {
+        buttons.removeAll()
+        radioButtons.forEach { button in
+            if buttons.contains(where: { $0.identifier == button.identifier }) {
+                assertionFailure("Radio button should have unique identifier")
+            }
+            buttons.append(button)
+        }
     }
     
     var selectedIndex: Int? {
@@ -45,6 +51,7 @@ class RadioGroup : NSObject, RadioButtonDelegate {
     }
     
     func didSelectButton(_ identifier: String?) {
+        guard !(isRadioButtonSelected(for: identifier)) else { return }
         var selectedButton: RadioButtonProtocol?
         buttons.forEach {
             let radioButton = $0 as? RadioButton
@@ -57,6 +64,11 @@ class RadioGroup : NSObject, RadioButtonDelegate {
         if let selectedButton = selectedButton {
             delegate?.didSelectButton(selectedButton)
         }
+    }
+    
+    private func isRadioButtonSelected(for identifier: String?) -> Bool {
+        guard let previousSelectedButton = buttons.first(where: { $0.isSelected }) else { return false }
+        return previousSelectedButton.identifier == identifier
     }
 
 }
