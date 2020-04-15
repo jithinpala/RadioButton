@@ -113,3 +113,7 @@ var selectedValue = groupController.selectedGroupId
 We can assign these properties through XIB
 
 <img src="Screenshots/xibProperty.png" width="220" height="388"/>
+
+#### Note
+
+UIButton type should be custom
