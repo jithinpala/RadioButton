@@ -17,17 +17,17 @@ class ViewController: UIViewController, RadioGroupDelegate {
     @IBOutlet private weak var businessButton: RadioButton!
     @IBOutlet private weak var touristButton: RadioButton!
     
-    private var itemGroup: RadioGroup?
-    private var travelTypGruop: RadioGroup?
+    private var itemGroup: RadioGroupController?
+    private var travelTypGruop: RadioGroupController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        itemGroup = RadioGroup(buttons: [firstButton, secondButton, thirdButton], groupId: "Item")
+        itemGroup = RadioGroupController(buttons: [firstButton, secondButton, thirdButton], groupId: "Item")
         itemGroup?.delegate = self
         
-        travelTypGruop = RadioGroup(buttons: [businessButton, touristButton], groupId: "TravelType")
+        travelTypGruop = RadioGroupController(buttons: [businessButton, touristButton], groupId: "TravelType")
         travelTypGruop?.delegate = self
         
     }

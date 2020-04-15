@@ -1,5 +1,5 @@
 //
-//  RadioGroup.swift
+//  RadioGroupController.swift
 //  RadioButton
 //
 //  Created by Jithin Balan on 14/4/20.
@@ -13,7 +13,7 @@ protocol RadioGroupDelegate: class {
     func didSelectedButtonWith(_ index: Int?, value: String?, groupId: String?)
 }
 
-class RadioGroup : NSObject, RadioButtonDelegate {
+class RadioGroupController : NSObject, RadioButtonDelegate {
     
     private var buttons = [RadioButton]()
     weak var delegate : RadioGroupDelegate? = nil
@@ -65,6 +65,7 @@ class RadioGroup : NSObject, RadioButtonDelegate {
                          isMultipleSelectionEnabled: Bool? = nil) {
         for radioButton in buttons {
             radioButton.delegate = self
+            radioButton.otherButtons = buttons.filter { $0 != radioButton }
             if let isMultipleSelectionEnabled = isMultipleSelectionEnabled {
                 radioButton.isMultipleSelectionEnabled = isMultipleSelectionEnabled
             }
