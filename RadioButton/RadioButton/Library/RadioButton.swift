@@ -9,13 +9,20 @@
 import Foundation
 import UIKit
 
+protocol RadioButtonDelegate: class {
+    func didSelectedButton(_ button: RadioButton)
+}
 
 @IBDesignable
 class RadioButton: UIButton {
     
     private var circleLayer = CAShapeLayer()
     private var fillCircleLayer = CAShapeLayer()
+    
     var identifier: String?
+    var isMultipleSelectionEnabled: Bool = false
+    weak var delegate: RadioButtonDelegate?
+    @IBOutlet var otherButtons: [UIButton]!
     
     @IBInspectable var defaultColor: UIColor = UIColor.black {
         didSet {
@@ -91,6 +98,7 @@ class RadioButton: UIButton {
         self.contentHorizontalAlignment = .leading
         self.contentEdgeInsets = UIEdgeInsets(top: 0, left: titleLeftSpace, bottom: 0, right: 0)
         self.toggleButon()
+        self.initRadioButtonAction()
         
     }
     
@@ -117,6 +125,26 @@ class RadioButton: UIButton {
     
     private func fillCirclePath() -> UIBezierPath {
         return UIBezierPath(ovalIn: circleFrame().insetBy(dx: 4, dy: 4))
+    }
+    
+    func initRadioButtonAction() {
+        self.addTarget(self, action: #selector(touchUpInside), for: .touchUpInside)
+    }
+    
+    @objc func touchUpInside() {
+        if isMultipleSelectionEnabled {
+            self.isSelected = !self.isSelected
+            deSelectButtons()
+        } else {
+            self.isSelected = true
+            deSelectButtons()
+        }
+        delegate?.didSelectedButton(self)
+    }
+    
+    func deSelectButtons() {
+        guard let otherButtons = otherButtons else { return }
+        otherButtons.forEach { $0.isSelected = false }
     }
 }
 

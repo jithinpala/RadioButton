@@ -10,24 +10,31 @@ import UIKit
 
 class ViewController: UIViewController, RadioGroupDelegate {
     
-    @IBOutlet private weak var firstButton: RadioButton!
+    @IBOutlet private weak var firstButton: RadioButton! 
     @IBOutlet private weak var secondButton: RadioButton!
     @IBOutlet private weak var thirdButton: RadioButton!
     
-    private var groupController: RadioGroup?
+    @IBOutlet private weak var businessButton: RadioButton!
+    @IBOutlet private weak var touristButton: RadioButton!
+    
+    private var itemGroup: RadioGroup?
+    private var travelTypGruop: RadioGroup?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        groupController = RadioGroup(buttons: [firstButton, secondButton, thirdButton])
-        groupController?.delegate = self
+        itemGroup = RadioGroup(buttons: [firstButton, secondButton, thirdButton], groupId: "Item")
+        itemGroup?.delegate = self
+        
+        travelTypGruop = RadioGroup(buttons: [businessButton, touristButton], groupId: "TravelType")
+        travelTypGruop?.delegate = self
         
     }
-
-    func didSelectedButton(_ index: Int?, value: String?) {
-        print("Index => \(index), selected value => \(value)")
+    
+    func didSelectedButtonWith(_ index: Int?, value: String?, groupId: String?) {
+        print("\n ====>  Index => \(index), selected value => \(value), groupId => \(groupId)")
     }
-
+    
 }
 

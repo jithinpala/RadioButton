@@ -8,68 +8,72 @@
 
 
 import Foundation
-import UIKit
 
 protocol RadioGroupDelegate: class {
-    func didSelectedButton(_ index: Int?, value: String?)
+    func didSelectedButtonWith(_ index: Int?, value: String?, groupId: String?)
 }
 
-class RadioGroup : NSObject {
+class RadioGroup : NSObject, RadioButtonDelegate {
+    
     private var buttons = [RadioButton]()
     weak var delegate : RadioGroupDelegate? = nil
     var isGroupSelectionEnabled = false
+    private var groupId: String?
     
     override init() {
         super.init()
     }
 
-    init(buttons: [RadioButton]) {
+    init(buttons: [RadioButton],
+         groupId: String? = nil,
+         isMultipleSelectionEnabled: Bool? = nil) {
         super.init()
-        for aButton in buttons {
-            aButton.addTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
+        self.groupId = groupId
+        for radioButton in buttons {
+            radioButton.delegate = self
+            radioButton.otherButtons = buttons.filter { $0 != radioButton }
+            
+            if let isMultipleSelectionEnabled = isMultipleSelectionEnabled {
+                radioButton.isMultipleSelectionEnabled = isMultipleSelectionEnabled
+            }
         }
         self.buttons = buttons
     }
     
-    func addButton(_ button: RadioButton) {
+    func addButton(_ button: RadioButton,
+                   groupId: String? = nil,
+                   isMultipleSelectionEnabled: Bool? = nil) {
+        self.groupId = groupId
+        if let isMultipleSelectionEnabled = isMultipleSelectionEnabled {
+            button.isMultipleSelectionEnabled = isMultipleSelectionEnabled
+        }
+        button.delegate = self
         buttons.append(button)
-        button.addTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
     }
     
     func removeButton(_ button: RadioButton) {
-        var iteratingButton: RadioButton? = nil
-        if(buttons.contains(button))
-        {
-            iteratingButton = button
-        }
-        if(iteratingButton != nil) {
-            buttons.remove(at: buttons.firstIndex(of: iteratingButton!)!)
-            iteratingButton!.removeTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
-            iteratingButton!.isSelected = false
+        button.otherButtons = []
+        buttons.first { $0 == button }?.isSelected = false
+        buttons.removeAll(where: { $0 == button })
+        buttons.forEach {
+            $0.otherButtons.removeAll(where: { $0 == button})
         }
     }
     
-    func setButtonsArray(_ buttons: [RadioButton]) {
-        for button in buttons {
-            button.addTarget(self, action: #selector(radioButtonTapAction(_:)), for: .touchUpInside)
+    func addButtons(_ buttons: [RadioButton],
+                         groupId: String? = nil,
+                         isMultipleSelectionEnabled: Bool? = nil) {
+        for radioButton in buttons {
+            radioButton.delegate = self
+            if let isMultipleSelectionEnabled = isMultipleSelectionEnabled {
+                radioButton.isMultipleSelectionEnabled = isMultipleSelectionEnabled
+            }
         }
+        self.groupId = groupId
         self.buttons = buttons
     }
-
-    @objc func radioButtonTapAction(_ sender: UIButton) {
-        if(sender.isSelected) {
-            sender.isSelected = false
-        } else {
-            for button in buttons {
-                button.isSelected = false
-            }
-            sender.isSelected = true
-        }
-        guard sender.isSelected else { return }
-        delegate?.didSelectedButton(selectedIndex, value: selectedValue)
-    }
     
-    var selectedButton: UIButton? {
+    var selectedButton: RadioButton? {
         guard let index = buttons.firstIndex(where: { button in button.isSelected }) else { return nil }
         return buttons[index]
     }
@@ -82,6 +86,14 @@ class RadioGroup : NSObject {
     var selectedValue: String? {
         guard let index = buttons.firstIndex(where: { button in button.isSelected }) else { return nil }
         return buttons[index].identifier
+    }
+    
+    var selectedGroupId: String? {
+        return groupId
+    }
+    
+    func didSelectedButton(_ button: RadioButton) {
+        delegate?.didSelectedButtonWith(selectedIndex, value: selectedValue, groupId: selectedGroupId)
     }
 
 }
