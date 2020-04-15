@@ -11,12 +11,12 @@ class ViewController: UIViewController, RadioGroupDelegate {
     @IBOutlet private weak var secondButton: RadioButton!
     @IBOutlet private weak var thirdButton: RadioButton!
     
-    private var groupController: RadioGroup?
+    private var groupController: RadioGroupController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        groupController = RadioGroup(buttons: [firstButton, secondButton, thirdButton])
+        groupController = RadioGroupController(buttons: [firstButton, secondButton, thirdButton])
         groupController?.delegate = self
         
     }
@@ -28,6 +28,42 @@ class ViewController: UIViewController, RadioGroupDelegate {
 }
 
 ```
+
+### Programmatically
+
+```
+class ViewController: UIViewController, RadioGroupDelegate {
+    
+    @IBOutlet private weak var firstButton: RadioButton!
+    @IBOutlet private weak var secondButton: RadioButton!
+    @IBOutlet private weak var thirdButton: RadioButton!
+    
+    private var groupController: RadioGroupController?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        groupController = RadioGroupController()
+        
+        // Step 1 with group id
+        groupController.addButtons([firstButton, secondButton, thirdButton], groupId: "") 
+        groupController?.delegate = self
+        
+        // Step 2 with group id and multiselection
+        
+        groupController.addButtons([firstButton, secondButton, thirdButton], groupId: "", isMultiSelectionEnabled: Bool) 
+        groupController?.delegate = self
+        
+    }
+
+    func didSelectedButton(_ index: Int?, value: String?) {
+        print("Index => \(index), selected value => \(value)")
+    }
+
+}
+
+```
+
 
 ## Demo
 ![Demo](https://github.com/jithinpala/RadioButton/blob/master/Screenshots/RadioGif.gif?raw=true)
@@ -49,6 +85,12 @@ To get the currently selected button value, you can use
 
 ```
 var selectedValue = groupController.selectedValue
+```
+
+To get the currently selected group id, you can use 
+
+```
+var selectedValue = groupController.selectedGroupId
 ```
 
 ## 🎨 Customization
