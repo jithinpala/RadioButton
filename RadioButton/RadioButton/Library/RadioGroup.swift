@@ -13,7 +13,7 @@ protocol RadioGroupDelegate: class {
     func didSelectButton(_ button: RadioButtonProtocol?)
 }
 
-protocol RadioButtonProtocol {
+protocol RadioButtonProtocol: AnyObject {
     var identifier: String? { get }
     var title: String? { get }
     var isSelected: Bool { get set }
@@ -52,16 +52,10 @@ class RadioGroup : NSObject, RadioButtonDelegate {
     
     func didSelectButton(_ identifier: String?) {
         guard !(isRadioButtonSelected(for: identifier)) else { return }
-        var selectedButton: RadioButtonProtocol?
         buttons.forEach {
-            let radioButton = $0 as? RadioButton
-            let isSelected = radioButton?.identifier == identifier
-            radioButton?.isSelected = isSelected
-            if isSelected {
-                selectedButton = radioButton
-            }
+            $0.isSelected = $0.identifier == identifier
         }
-        if let selectedButton = selectedButton {
+        if let selectedButton = buttons.first(where: { $0.isSelected && $0.identifier == identifier }) {
             delegate?.didSelectButton(selectedButton)
         }
     }
